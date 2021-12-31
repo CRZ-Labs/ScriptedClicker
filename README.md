@@ -1,0 +1,2 @@
+# ScriptedClicker
+Clicador programable

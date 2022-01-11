@@ -25,7 +25,7 @@
         End If
     End Sub
     Private Sub Main_HelpRequested(sender As Object, hlpevent As HelpEventArgs) Handles Me.HelpRequested
-        If MessageBox.Show("Desarrollado por CRZ Labs." & vbCrLf & "¿Visitar perfil y repositorio?", "Creditos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+        If MessageBox.Show("Desarrollado por CRZ Labs." & vbCrLf & "¿Visitar perfil y repositorio?", "Créditos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
             Process.Start("https://github.com/CRZ-Labs")
             Process.Start("https://github.com/CRZ-Labs/ScriptedClicker")
         End If
@@ -48,6 +48,10 @@
                         StartScriptedProcessor()
                     ElseIf parameter Like "*-repeat*" Then
                         cbRepeat.Checked = True
+                    ElseIf parameter Like "*-norepeat*" Then
+                        cbRepeat.Checked = False
+                    ElseIf parameter Like "*-hide*" Then
+                        Me.Hide()
                     End If
                 Next
             End If
@@ -92,9 +96,9 @@
             Else
                 Dim clickType As SByte = 0
                 If rbDERClick.Checked Then
-                    clickType = 0
-                Else
                     clickType = 1
+                Else
+                    clickType = 0
                 End If
                 lbInstructions.Items.Add(lbInstructions.Items.Count & ") " & tbCoords.Text & " Click: " & clickType & " Hold: " & cbHold.Checked & " Release: " & cbRelease.Checked & " Delay: " & tbDelay.Text)
                 RawFileScript.Add(tbCoords.Text & "," & clickType & "," & cbHold.Checked & "," & cbRelease.Checked & "," & tbDelay.Text)
@@ -129,7 +133,7 @@
             Dim formatString As String() = RawFileScript(lbInstructions.SelectedIndex).Split(",")
             tbCoords.Text = formatString(0) & "," & formatString(1)
             Dim clickType As SByte = formatString(2)
-            If clickType = 0 Then
+            If clickType = 1 Then
                 rbDERClick.Checked = True
             Else
                 rbIZQClick.Checked = True
@@ -146,7 +150,6 @@
         Dim items As String() = item.Split(",")
         Cursor.Position = New Point(items(0), items(1))
     End Sub
-
     Private Sub btnStartStop_Click(sender As Object, e As EventArgs) Handles btnStartStop.Click
         StartScriptedProcessor()
     End Sub

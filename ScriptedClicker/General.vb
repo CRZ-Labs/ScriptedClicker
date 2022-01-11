@@ -162,7 +162,9 @@ Module ScriptedClickerFile
 
             file_Set_Count = Integer.Parse(GetIniValue("Settings", "Count", filePath))
             file_Set_Repeat = Boolean.Parse(GetIniValue("Settings", "Repeat", filePath))
-            Main.cbRepeat.Checked = file_Set_Repeat
+            If Not Main.cbRepeat.Checked Then
+                Main.cbRepeat.Checked = file_Set_Repeat
+            End If
             Main.Text = file_Prop_ScriptName & " (v" & file_Prop_ScriptVersion & ") by " & file_Prop_ScriptAuthor & " | ScriptedClicker"
 
             Dim indice As Integer = 0
@@ -190,12 +192,15 @@ Module ScriptedClickerFile
                 My.Computer.FileSystem.DeleteFile(filePath)
             End If
 
-            Dim PedirTitulo = InputBox("Ingrese el titulo de su script", "Titulo Script", file_Prop_ScriptName)
-            If PedirTitulo <> Nothing Then
-                file_Prop_ScriptName = PedirTitulo
-            Else
-                file_Prop_ScriptName = "Script sin titulo"
+            If file_Prop_ScriptName = Nothing Then
+                Dim PedirTitulo = InputBox("Ingrese el título de su script", "Nombre Script", file_Prop_ScriptName)
+                If PedirTitulo <> Nothing Then
+                    file_Prop_ScriptName = PedirTitulo
+                Else
+                    file_Prop_ScriptName = "Script sin título"
+                End If
             End If
+
             If file_Prop_ScriptAuthor = Nothing Then
                 file_Prop_ScriptAuthor = Environment.UserName
             End If
